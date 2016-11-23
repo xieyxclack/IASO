@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Bootstrap 3, from LayoutIt!</title>
+
+    <meta name="description" content="Source code generated using layoutit.com">
+    <meta name="author" content="LayoutIt!">
+
+    <link href="/medicine/Application/Home/View/Index/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/medicine/Application/Home/View/Index/css/zz.css" rel="stylesheet">
+    <link href="/medicine/Application/Home/View/Index/css/flat-ui.css" rel="stylesheet">
+    <link href="/medicine/Application/Home/View/Index/css/style.css" rel="stylesheet">
+	
+<link href="/medicine/Application/Home/View/Index/css/bootstrap-combined.min.css" rel="stylesheet">
+<link href="/medicine/Application/Home/View/Index/css/layoutit.css" rel="stylesheet">
+	
+  </head>
+  <body>
+
+  <div id="title" style="width:100%; height:50px; background: black">
+  <div style="padding-left: 20px; padding-right: 10px;padding-top: 12px;margin: 0 0 0 -5px; font-size: 20px; color:#fff;">
+  <img src="/medicine/Application/Home/View/Index/img/logo.jpg">
+  医学知识图谱
+  </div>
+  </div>
+    <div class="container-fluid" style="margin-top:50px;">
+	<div class="row">
+		<div class="col-md-6">
+			<div class="row-fluid">
+		<div class="span10" style="margin-left:60px;">
+			<h2 class="accordion-heading" contenteditable="true" style="color: #34495e;">
+				初始病症描述
+			</h2>
+		<div class="accordion" >
+				<div class="accordion-group">
+					<div class="accordion-body collapse in" >
+						<div class="accordion-inner" style="float:left; clear:right; width:100%">
+							<div contenteditable="true" style="color: #34495e;font-size: 20px;float: left;"><strong>原始输入查询&nbsp; ：</strong></div>
+                            <div contenteditable="true" style="color: #34495e;font-size: 20px;float: left;">{$symptom_input}</div>
+						</div>
+						<div class="accordion-inner" style="float:left; clear:right; width:100%">
+							<div contenteditable="true" style="color: #34495e;font-size: 20px;float: left;"><strong>查询分词结果&nbsp; ：</strong></div>
+                            <div contenteditable="true" style="color: #34495e;font-size: 20px;float: left;">
+                                <?php
+                                foreach($fenci_result as $fenci_result_item)
+                                   {echo $fenci_result_item."&nbsp; &nbsp;";
+                             }?></div>
+						</div>
+						<div class="accordion-inner" style="float:left; clear:right; width:100%">
+							<div contenteditable="true" style="color: #34495e;font-size: 20px;float: left;"><strong>同/近义词匹配 ：</strong></div>
+                            
+                                <?php
+                                foreach($match_result as $match_result_item)
+                                   { ?>
+                                   <div contenteditable="true" style="color: #34495e;font-size: 20px;float: left;">
+                                   <?php echo $match_result_item."&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;"; ?></div>
+                                   <?php
+                                }
+                                ?>
+                                
+						</div>
+						<div class="accordion-inner" style="float:left; clear:right; width:100%">
+							<div contenteditable="true" style="color: #34495e;font-size: 20px;float: left;"><strong>标准症状匹配&nbsp; ：</strong></div>
+                            <div contenteditable="true" style="color: #34495e;font-size: 20px;float: left;">
+                                <?php
+                                foreach($symptom_match as $symptom_match_item)
+                                   {echo $symptom_match_item."&nbsp;&nbsp;";
+                                }
+                                ?>
+                            </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="span10" style="margin-left:60px;">
+			<h2 class="accordion-heading" contenteditable="true" style="color: #34495e;">
+				可能出现的其他症状(按概率从大到小排序)
+			</h2>
+		<div class="accordion" >
+		<div class="accordion-group">
+					<div class="accordion-body collapse in" >
+						<div class="accordion-body collapse in" >
+						<div class="accordion-inner" style="float:left; clear:right; width:100%">
+							<div contenteditable="true" style="color: #34495e;font-size: 20px;float: left;"><strong>已选择症状&nbsp; ：</strong></div>
+                            <div contenteditable="true" style="color: #34495e;font-size: 20px;float: left;">
+								<?php
+                                foreach($symptom_old as $symptom_old_item)
+                                   {echo $symptom_old_item."&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;";
+                                }
+                                ?>
+								</div>
+						</div>
+						
+					</div>
+					</div>
+				</div>
+		
+				<div class="accordion-group">
+					<div class="accordion-body collapse in" >
+						
+				<form action="{:U('Home/Index/symptom')}" method="post">
+					<fieldset>
+					<section style="clear:both;">
+  <?php
+$count=0;
+foreach($relate_symptom_list as $symptom)
+   {
+   $count=$count+1;
+   $string="second_symptom".$count;
+   ?>
+    <div name="症状" style="float:left;clear:both">
+    <div name="效果" style="float:left;">
+  	<div class="checkboxFour" >
+  		<input type="checkbox" name="second_symptom[]" value="{$symptom[0]['title']}" id="{$symptom[0]['title']}" name="" />
+	  	<label for="{$symptom[0]['title']}"></label>
+  	</div>
+  </div>
+  <div style="float:left;margin: 10px -2px;color: #34495e;font-size: 20px;" >{$symptom[0]['title']}</div>
+  </div>
+ <?php  }
+?>
+                        <!--zlz：两个隐藏input，传参数-->
+						<input type="hidden" name="panduan" class="tcal" value="1" />
+						<!--zlz：用户原始输入，保持不变-->
+						<input type="hidden" name="symptom_input" class="tcal" value="{$symptom_input}" />
+						<!--zlz：原始分词结果，保持不变-->
+						<?php
+						foreach($fenci_result as $fenci_result_item)
+						{ ?>
+						<input type="hidden" name="fenci_result[]" value="{$fenci_result_item}" name="" />
+						<?php } ?>
+						<!--zlz：原始同义词匹配，保持不变-->
+						<?php
+						foreach($match_result as $match_result_item)
+						{ ?>
+						<input type="hidden" name="match_result[]" value="{$match_result_item}" name="" />
+						<?php } ?>
+						<!--zlz：原始数据库匹配，保持不变-->
+						<?php
+						foreach($symptom_match as $symptom_match_item)
+						{ ?>
+						<input type="hidden" name="symptom_match[]" value="{$symptom_match_item}" name="" />
+						<?php } ?>
+						<!--zlz：上一次迭代中的症状们，累加-->
+						<?php
+						foreach($symptom_old as $symptom_old_item)
+						{ ?>
+						<input type="hidden" name="symptom_old[]" value="{$symptom_old_item}" name="" />
+						<?php } ?>
+						<input type="hidden" name="symptom" class="tcal" value="{$symptom_input}" />
+</section>
+					<button type="submit" class="btn btn btn-large btn-block" contenteditable="true" style="background:#333; width:10%;height:45px;margin:15px 15px; float:left;clear:both;"><font color="#fff" >提交</font></button>
+					</fieldset>
+				</form>
+              
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+		</div>
+		<div class="col-md-6">
+			<h2 class="accordion-heading" contenteditable="true" style="color: #34495e;">
+				基本诊断
+			</h2>
+			<volist name="disease_list" id="disease"  >
+			<div class="accordion" id="accordion-438583">
+				<div class="accordion-group">
+					<h3 class="accordion-heading">
+						<a class="accordion-toggle" data-parent="#accordion-438583" data-toggle="collapse" href="#{$disease.id_disease}"><strong>{$disease.title} 患病概率：{$disease.probability}</strong></a>
+					</h3>
+					<div class="accordion-body collapse" id={$disease.id_disease}>
+						<div class="accordion-inner">
+							病情详述
+						</div>
+						<div class="accordion-inner">
+							{$disease.summary}
+						</div>
+					</div>
+				</div>
+				
+			</div>
+			</volist>
+			<div class="tabbable" id="tabs-705519">
+
+				<ul class="nav nav-tabs">
+					<?php $count_z=0; ?>
+					<volist name="disease_list" id="disease" >
+						<?php
+					$count_z=$count_z+1;
+					$classstring1="";
+					if($count_z=="1")
+					{
+					$classstring1="active";
+					} ?>
+					<li class={$classstring1}>
+						<a data-toggle="tab" href="#{$disease.title}">{$disease.title}</a>
+					</li>
+				</volist>
+				</ul>
+				<?php $count_zz=0; ?>
+				<div class="tab-content">
+						<?php foreach($disease_list as $disease_list_item)
+							{
+					$count_zz=$count_zz+1;
+					$count_zzzzz=0;
+					$classstring="";
+					if($count_zz=="1")
+					{
+					$classstring="active";
+					}
+
+?>
+					<div class="tab-pane {$classstring}" id={$disease_list_item.title} >
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th>
+										相关症状
+									</th>
+									<th>
+										条件概率
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+							<?php foreach(array_keys($disease_list_item['tiaojian']) as $K)
+							{
+							$classstringrow="";
+					if($count_zzzzz%5=="1")
+					{
+					$classstringrow="success";
+					}
+					if($count_zzzzz%5=="2")
+					{
+					$classstringrow="error";
+					}
+					if($count_zzzzz%5=="3")
+					{
+					$classstringrow="warning";
+					}
+					if($count_zzzzz%5=="4")
+					{
+					$classstringrow="info";
+					}
+							$count_zzzzz=$count_zzzzz+1;
+?>
+								<tr class={$classstringrow}>
+									<td>
+										<?php echo $K; ?>
+									</td>
+									<td>
+										<?php echo $disease_list_item['tiaojian'][$K]; ?>
+									</td>
+								</tr>
+							<?php
+							} ?>
+							</tbody>
+						</table>
+					</div>
+					<?php
+							} ?>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</div>
+
+    <script src="/medicine/Application/Home/View/Index/js/jquery.min.js"></script>
+    <script src="/medicine/Application/Home/View/Index/js/bootstrap.min.js"></script>
+    <script src="/medicine/Application/Home/View/Index/js/scripts.js"></script>
+  </body>
+</html>
