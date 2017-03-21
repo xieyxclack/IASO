@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="utf-8">
+    <title>医学</title>
+</head>
+<br>
+</br>
+<label><font size="5" color="gray">（User）输入查询：</font></label><br>
+<ul>{{symptom_input}}</ul>
+--------------------------------------------------------------------------------------------------------------------------------------------------
+<br><label><font size="5" color="gray">（ZQ）分词结果：</font></label><br>
+<ul>{%for segment in segment_result%}{{segment}}, {%end%}</ul>
+--------------------------------------------------------------------------------------------------------------------------------------------------
+<br><label><font size="5" color="gray">（SSC）匹配结果：</font></label><br>
+<ul>{%for match_result_item in match_result%}{{match_result_item}}<br>{%end%}</ul>
+--------------------------------------------------------------------------------------------------------------------------------------------------
+<br><label><font size="5" color="gray">（ZLZ）匹配结果和数据库症状集交集：</font></label><br>
+<ul>{%for symptom_match_item in symptom_match%}{{symptom_match_item}}<br>{%end%}
+{{symptom_count}}个
+</ul>
+--------------------------------------------------------------------------------------------------------------------------------------------------
+<br><label><font size="5" color="gray">（ZLZ）相关疾病：</font></label><br>
+<br>
+<ul>
+<table class="table table-bordered">
+    <thead class="table-head">
+    <tr>
+        <td>疾病名称</td>
+        <td>所属科室</td>
+        <td>患病概率</td>
+        <td>包含症状数目</td>
+    </tr>
+    </thead>
+    <tbody>
+    {%for disease in disease_list%}
+        <tr>
+            <td>{{disease['title']}}</td>
+            <td>{{disease['department']}}</td>
+            <td>{{disease['probability']}}</td>
+            <td>{{disease['symptom_count']}}</td>
+        </tr>
+    {%end%}
+    </tbody>
+</table>
+</ul>
+--------------------------------------------------------------------------------------------------------------------------------------------------
+</br>
+<label><font size="5" color="gray">（ZLZ）最相关的症状（按概率大小依次排列）：</font></label></br>
+<!-- xj -->
+<form action="/symptom" method="post">
+<ul>
+    {%for related_symptom in related_symptom_list%}
+    <input type='checkbox' name="second_symptom" value="{{related_symptom}}"/>{{related_symptom}}<br/>
+    {%end%}
+
+</ul>
+    <!--zlz：两个隐藏input，传参数-->
+    <input type="hidden" name="panduan" class="tcal" value="1" />
+    <input type="hidden" name="symptom" class="tcal" value="{{symptom_input}}" />
+    <input type='submit' value='提交' />
+</form>
+
+
+</body>
+</html>
