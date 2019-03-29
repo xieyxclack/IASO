@@ -5,7 +5,7 @@ IASO/demo/operation.py
 -------
 A demo for IASO, run operation.py to get the result for an example input "宝宝腹痛" <br>
 
-IASO/demo/zh_gastrointestinal_iaso.owl
+IASO/demo/disease.owl
 -------
 Our ontology file
 
